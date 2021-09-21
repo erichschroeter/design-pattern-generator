@@ -1,0 +1,42 @@
+@startuml Code Generator Diagram
+
+class Variable
+Variable : string type
+Variable : string name
+class Function
+Function : string return_type
+Function : Variable[] args
+Function : string name
+class Class
+Class : Variable[] members
+Class : Function[] functions
+interface ClassEventListener
+ClassEventListener : bool HandleClass(Class)
+interface InputParser
+InputParser : AddCallback(ClassEventListener)
+InputParser : RemoveCallback(ClassEventListener)
+InputParser : Parse(string)
+interface CodeGenerator
+CodeGenerator : Generate(Writable)
+package Parsers <<rectangle>> {
+	class CppParser <<InputParser>>
+	class JsonParser <<InputParser>>
+}
+class DesignPatternGenerator
+DesignPatternGenerator : Run()
+package Generators <<rectangle>> {
+	class CppHeaderBuilderDesignPatternGenerator <<ClassEventListener>> <<CodeGenerator>>
+	class CppSourceBuilderDesignPatternGenerator <<ClassEventListener>> <<CodeGenerator>>
+	class CppHeaderFactoryDesignPatternGenerator <<ClassEventListener>> <<CodeGenerator>>
+	class CppSourceFactoryDesignPatternGenerator <<ClassEventListener>> <<CodeGenerator>>
+}
+
+Variable <-[hidden]- Function
+Function <-[hidden]- Class
+CppParser <-[hidden]- JsonParser
+DesignPatternGenerator --|> InputParser
+DesignPatternGenerator --|> CodeGenerator
+CppHeaderBuilderDesignPatternGenerator <-[hidden]- CppSourceBuilderDesignPatternGenerator 
+CppSourceBuilderDesignPatternGenerator <-[hidden]- CppHeaderFactoryDesignPatternGenerator 
+CppHeaderFactoryDesignPatternGenerator <-[hidden]- CppSourceFactoryDesignPatternGenerator 
+@enduml
