@@ -1,10 +1,10 @@
-use design_pattern_generator::{CodeGenerator, InputParser};
+use design_pattern_generator::{CodeGenerator, parse::{InputParser, json::JsonParser}};
 
 fn main() {
     let mut cpp_header = design_pattern_generator::CppHeaderBuilderDesignPatternCodeGenerator::new();
     let mut cpp_source = design_pattern_generator::CppSourceBuilderDesignPatternCodeGenerator::new();
     {
-        let mut parser = design_pattern_generator::JsonParser::new();
+        let mut parser = JsonParser::new();
         parser.attach(&mut cpp_header);
         parser.attach(&mut cpp_source);
         let json = r#"{
